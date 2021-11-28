@@ -28,7 +28,7 @@ app.get('/', function(req, res) {
 
 app.get('/api/token/:token_id', function(req, res) {
   const token_id = parseInt(req.params.token_id).toString()
-console.log(process.env.DATABASE_URL);
+
   let data = {};
 
   client.connect();
@@ -36,9 +36,8 @@ console.log(process.env.DATABASE_URL);
   client.query('SELECT * FROM nfts WHERE id = $1', [token_id], (error, response) => {
     if(error) throw error;
 
-    let row = response[0];
-console.log(response);
-console.log(row);
+    let row = response.rows[0];
+
     data = {
       platform: 'Gen8',
       tokenID: token_id,
