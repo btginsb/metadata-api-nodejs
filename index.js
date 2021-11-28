@@ -14,6 +14,8 @@ const client = new Client({
   }
 });
 
+client.connect();
+
 const app = express()
   .set('port', PORT)
   .set('views', path.join(__dirname, 'views'))
@@ -31,12 +33,15 @@ app.get('/api/token/:token_id', function(request, response) {
 
   let data = {};
 
-  client.connect();
-
   client.query('SELECT * FROM nfts WHERE id = $1', [token_id], (error, result) => {
     if(error) throw error;
 
     let row = result.rows[0];
+
+    if(!row) {
+      response.status(404).send('Not found');
+      return;
+    }
 
     data = {
       platform: 'Gen8',
@@ -49,8 +54,8 @@ app.get('/api/token/:token_id', function(request, response) {
 
     response.status(200).send(data);
   });
-})
+});
 
 app.listen(app.get('port'), function() {
   console.log('Node app is running on port', app.get('port'));
-})
+});
