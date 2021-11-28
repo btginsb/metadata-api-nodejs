@@ -26,17 +26,17 @@ app.get('/', function(req, res) {
   res.send('Invalid');
 })
 
-app.get('/api/token/:token_id', function(req, res) {
-  const token_id = parseInt(req.params.token_id).toString()
+app.get('/api/token/:token_id', function(request, response) {
+  const token_id = parseInt(request.params.token_id).toString()
 
   let data = {};
 
   client.connect();
 
-  client.query('SELECT * FROM nfts WHERE id = $1', [token_id], (error, response) => {
+  client.query('SELECT * FROM nfts WHERE id = $1', [token_id], (error, result) => {
     if(error) throw error;
 
-    let row = response.rows[0];
+    let row = result.rows[0];
 
     data = {
       platform: 'Gen8',
@@ -47,10 +47,8 @@ app.get('/api/token/:token_id', function(req, res) {
       attributes: {},
     };
 
-    client.end();
+    response.status(200).send(data);
   });
-
-  res.send(data);
 })
 
 app.listen(app.get('port'), function() {
