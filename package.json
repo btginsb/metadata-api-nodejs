@@ -10,9 +10,11 @@
   "author": "Alex Atallah <alex.atallah@opensea.io>",
   "license": "MIT",
   "dependencies": {
+    "dotenv": "^10.0.0",
     "ejs": "^2.6.1",
     "express": "^4.16.4",
-    "moment": "^2.22.2"
+    "moment": "^2.22.2",
+    "pg": "^8.7.1"
   },
   "devDependencies": {
     "request": "^2.81.0",
