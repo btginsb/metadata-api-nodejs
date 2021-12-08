@@ -81,7 +81,7 @@ app.post('/api/token', function (req, res) {
 
     console.log(results);
 
-    res.send('Token inserted successfully');
+    res.send(results);
   });
 });
 
