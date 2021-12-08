@@ -69,7 +69,11 @@ app.post('/api/token', function (req, res) {
     hash: req.body.hash,
   };
 
-  client.query('INSERT INTO table_name SET ?', data, function (error, results, fields) {
+  client.query('INSERT INTO nfts (image, artist, hash) VALUES($1, $2, $3) RETURNING id', [
+      data.image,
+      data.artist,
+      data.hash,
+  ], function (error, results, fields) {
     if (error) throw error;
 
     console.log(results);
