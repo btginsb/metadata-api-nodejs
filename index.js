@@ -1,5 +1,6 @@
 const express = require('express')
 const path = require('path')
+const bodyParser = require("body-parser")
 const { HOST } = require('./src/constants')
 const { Client } = require('pg');
 
@@ -23,6 +24,9 @@ const app = express()
 
 // Static public files
 app.use(express.static(path.join(__dirname, 'public')))
+
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
 
 app.get('/', function(req, res) {
   res.send('Invalid');
