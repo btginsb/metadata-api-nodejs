@@ -56,6 +56,24 @@ app.get('/api/token/:token_id', function(request, response) {
   });
 });
 
+app.post('/api/token', function (req, res) {
+  console.log(req);
+
+  const data = {
+    image: req.body.image_url,
+    artist:  req.body.artist,
+    hash: req.body.hash,
+  };
+
+  client.query('INSERT INTO table_name SET ?', data, function (error, results, fields) {
+    if (error) throw error;
+
+    console.log(results);
+
+    res.send('Token inserted successfully');
+  });
+});
+
 app.listen(app.get('port'), function() {
   console.log('Node app is running on port', app.get('port'));
 });
