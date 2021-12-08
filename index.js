@@ -67,15 +67,19 @@ app.post('/api/token', function (req, res) {
   console.log(req);
 
   const data = {
+    token_id: req.body.token_id,
     image: req.body.image_url,
     artist:  req.body.artist,
     hash: req.body.hash,
+    owner: req.body.owner,
   };
 
-  client.query('INSERT INTO nfts (image, artist, hash) VALUES($1, $2, $3) RETURNING id', [
+  client.query('INSERT INTO nfts (id, image, artist, hash, owner) VALUES($1, $2, $3, $4, $5) RETURNING id', [
+      data.token_id,
       data.image,
       data.artist,
       data.hash,
+      data.owner,
   ], function (error, results, fields) {
     if (error) throw error;
 
