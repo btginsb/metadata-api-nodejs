@@ -3,6 +3,7 @@ const path = require('path')
 const bodyParser = require("body-parser")
 const { HOST } = require('./src/constants')
 const { Client } = require('pg');
+const cors = require('cors');
 
 require('dotenv').config();
 
@@ -27,6 +28,8 @@ app.use(express.static(path.join(__dirname, 'public')))
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+
+app.use(cors({origin: '*'}));
 
 app.get('/', function(req, res) {
   res.send('Invalid');
