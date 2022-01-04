@@ -63,6 +63,17 @@ app.get('/api/token/:token_id', function(request, response) {
 	});
 });
 
+
+app.get('/api/token_count/', function(request, response) {
+	client.query('SELECT COUNT(*) as num_minted FROM nfts', (error, result) => {
+		if(error) throw error;
+
+		let row = result.rows[0];
+
+		response.status(200).send(row);
+	});
+});
+
 app.post('/api/token', function (req, res) {
 	console.log(req);
 
@@ -73,6 +84,8 @@ app.post('/api/token', function (req, res) {
 		hash: req.body.hash,
 		owner: req.body.owner,
 	};
+
+	// todo: on dupe key update or check for existing and error
 
 	client.query('INSERT INTO nfts (id, image, artist, hash, owner) VALUES($1, $2, $3, $4, $5) RETURNING id', [
 		data.token_id,
