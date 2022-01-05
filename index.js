@@ -102,6 +102,28 @@ app.post('/api/token', function (req, res) {
 	});
 });
 
+app.put('/api/token', function (req, res) {
+	console.log(req);
+
+	const data = {
+		token_id: parseInt(req.body.token_id),
+		image: req.body.image_url,
+		hash: req.body.hash,
+	};
+
+	client.query('UPDATE nfts SET image = $2, hash = $3 WHERE id = $1', [
+		data.token_id,
+		data.image,
+		data.hash,
+	], function (error, results, fields) {
+		if (error) throw error;
+
+		console.log(results);
+
+		res.send(results);
+	});
+});
+
 app.listen(app.get('port'), function() {
 	console.log('Node app is running on port', app.get('port'));
 });
