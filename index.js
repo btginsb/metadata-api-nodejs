@@ -74,6 +74,24 @@ app.get('/api/token_count/', function(request, response) {
 	});
 });
 
+app.get('/api/last_mint/', function(request, response) {
+	client.query('SELECT id, image, hash FROM nfts ORDER BY id DESC LIMIT 1', (error, result) => {
+		if(error) throw error;
+
+		let row = result.rows[0];
+
+		response.status(200).send(row);
+	});
+});
+
+app.get('/api/recent_mints/', function(request, response) {
+	client.query('SELECT id, image, hash FROM nfts ORDER BY id DESC LIMIT 15', (error, result) => {
+		if(error) throw error;
+
+		response.status(200).send(result.rows);
+	});
+});
+
 app.post('/api/token', function (req, res) {
 	console.log(req);
 
